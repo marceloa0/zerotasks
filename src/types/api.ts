@@ -7,6 +7,18 @@ export interface Token {
 
 // Usuários
 
+export interface UserCreate {
+    username: string
+    email: string
+    password: string
+}
+
+export interface UserUpdate {
+    username?: string
+    email?: string
+    password?: string
+}
+
 export interface UserPublic {
   id: number;
   username: string;
@@ -21,6 +33,18 @@ export interface UserList {
 // Tarefas
 
 export type TodoState = 'draft' | 'todo' | 'doing' | 'done' | 'trash';
+
+export interface TodoCreate {
+  title: string;
+  description: string;
+  state: TodoState;
+}
+
+export interface TodoUpdate {
+  title?: string;
+  description?: string;
+  state?: TodoState;
+}
 
 export interface TodoPublic {
   id: number;
