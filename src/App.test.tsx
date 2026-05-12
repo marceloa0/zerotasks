@@ -8,6 +8,13 @@ describe('App', () => {
     expect(screen.getByText('ZeroTasks')).toBeInTheDocument();
   });
 
+  it('deve renderizar o subtítulo da aplicação', () => {
+    render(<App />);
+    expect(
+      screen.getByText('Bem-vindo ao seu gerenciador de tarefas')
+    ).toBeInTheDocument();
+  });
+
   it('deve incrementar o contador ao clicar no botão', async () => {
     const user = userEvent.setup();
     render(<App />);
