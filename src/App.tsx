@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import TodoCard from './components/TodoCard';
 import type { TodoPublic } from './types/api';
 
@@ -32,10 +33,16 @@ const MOCK_TODOS: TodoPublic[] = [
 ];
 
 function App() {
+  const [todos, setTodos] = useState<TodoPublic[]>(MOCK_TODOS);
+
+  const handleDelete = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="border-b bg-white px-6 py-4 shadow-sm">
-        <h1>ZeroTasks</h1>
+        <h1 className="text-xl font-bold text-gray-900">ZeroTasks</h1>
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-8">
@@ -43,8 +50,8 @@ function App() {
           Suas tarefas
         </h2>
         <div className="flex flex-col gap-3">
-          {MOCK_TODOS.map((todo) => (
-            <TodoCard key={todo.id} todo={todo} />
+          {todos.map((todo) => (
+            <TodoCard key={todo.id} todo={todo} onDelete={handleDelete} />
           ))}
         </div>
       </main>

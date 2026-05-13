@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type { TodoPublic } from '../types/api';
 import TodoCard from './TodoCard';
 
@@ -37,5 +38,26 @@ describe('TodoCard', () => {
   it('deve exibir o badge com o estado correto', () => {
     render(<TodoCard todo={createMockTodo({ state: 'done' })} />);
     expect(screen.getByText('Concluído')).toBeInTheDocument();
+  });
+
+  it('deve não renderizar button quando não houver prop onDelete', () => {
+    render(<TodoCard todo={createMockTodo()} />);
+
+    expect(
+      screen.queryByRole('button', { name: /excluir/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('deve chamar onDelete com o id correto', async () => {
+    const handleDelete = vi.fn();
+    const user = userEvent.setup();
+
+    render(
+      <TodoCard todo={createMockTodo({ id: 42 })} onDelete={handleDelete} />
+    );
+
+    await user.click(screen.getByRole('button', { name: /excluir/i }));
+
+    expect(handleDelete).toHaveBeenCalledWith(42);
   });
 });
